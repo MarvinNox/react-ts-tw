@@ -6,9 +6,9 @@ function App() {
   return (
     <div className="container mx-auto relative">
       <h1 className="text-6xl font-bold text-center mt-20">Hello World!</h1>
-      <ButtonPrime>Prime</ButtonPrime>
-      <ButtonSecondary>Secondary</ButtonSecondary>
-      <ButtonDisabled>Disabled</ButtonDisabled>
+      <ButtonPrime>Prime Button</ButtonPrime>
+      <ButtonSecondary>Sec Button</ButtonSecondary>
+      <ButtonDisabled>Disab Button</ButtonDisabled>
 
       <span className="px-2 py-1 mr-2 text-xs font-semibold text-white bg-green-500 rounded-full">
         Pro
