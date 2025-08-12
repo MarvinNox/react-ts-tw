@@ -1,43 +1,13 @@
 import ButtonDisabled from "./components/ui/ButtonDisabled/ButtonDisabled";
 import ButtonPrime from "./components/ui/ButtonPrime/ButtonPrime";
 import ButtonSecondary from "./components/ui/ButtonSecondary/ButtonSecondary";
+import Header from "./components/ui/Header/Header";
 
 function App() {
   return (
     <>
-      <header className="border-b border-b-gray-300 text-white">
-        <div className="container mx-auto flex justify-between p-2">
-          <a
-            href="/"
-            className="text-[var(--context-text-overlay-white-primary-text-overlay-w-primary)]"
-          >
-            SimpleLogo
-          </a>
-          <nav className="md:ml-auto">
-            <ul className="flex gap-2 text-[var(--context-text-overlay-white-primary-text-overlay-w-primary)]">
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <a href="/about">About</a>
-              </li>
-            </ul>
-          </nav>
-          <div className="flex items-center">
-            <svg
-              className="fill-white md:hidden"
-              width="20"
-              height="16"
-              viewBox="0 0 20 16"
-            >
-              <path d="M0 1.5C0 0.947715 0.447716 0.5 1 0.5H19C19.5523 0.5 20 0.947715 20 1.5V2.5C20 3.05228 19.5523 3.5 19 3.5H1C0.447715 3.5 0 3.05228 0 2.5V1.5Z" />
-              <path d="M0 7.5C0 6.94772 0.447716 6.5 1 6.5H19C19.5523 6.5 20 6.94772 20 7.5V8.5C20 9.05228 19.5523 9.5 19 9.5H1C0.447715 9.5 0 9.05229 0 8.5V7.5Z" />
-              <path d="M1 12.5C0.447716 12.5 0 12.9477 0 13.5V14.5C0 15.0523 0.447715 15.5 1 15.5H19C19.5523 15.5 20 15.0523 20 14.5V13.5C20 12.9477 19.5523 12.5 19 12.5H1Z" />
-            </svg>
-          </div>
-        </div>
-      </header>
-      <div className="container mx-auto relative">
+      <Header />
+      <div className="container mx-auto relative px-4">
         <h1 className="text-6xl font-bold text-center my-2">Hello World!</h1>
         <ButtonPrime>Prime Button</ButtonPrime>
         <ButtonSecondary>Sec Button</ButtonSecondary>
@@ -59,6 +29,25 @@ function App() {
           </p>
           <ButtonPrime>Click</ButtonPrime>
           <ButtonSecondary>Click me</ButtonSecondary>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+          <div>
+            <h2 className="text-2xl font-bold mb-3">Lorem, ipsum.</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
+              nesciunt voluptatum perferendis autem minima ut quis repellendus
+              ratione dolor, soluta nam obcaecati. Doloribus minima tenetur
+              provident iure sequi dignissimos vero.
+            </p>
+          </div>
+          <div className="flex justify-center md:justify-end">
+            <img
+              className="rounded-2xl h-auto max-w-full"
+              src="https://community.softr.io/uploads/db9110/original/2X/7/74e6e7e382d0ff5d7773ca9a87e6f6f8817a68a6.jpeg"
+              alt="placeholder"
+            />
+          </div>
         </div>
       </div>
     </>
