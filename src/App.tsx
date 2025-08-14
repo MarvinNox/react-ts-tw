@@ -1,7 +1,19 @@
+import { Button } from "./components/ui/button";
 import ButtonDisabled from "./components/ui/ButtonDisabled/ButtonDisabled";
 import ButtonPrime from "./components/ui/ButtonPrime/ButtonPrime";
 import ButtonSecondary from "./components/ui/ButtonSecondary/ButtonSecondary";
 import Header from "./components/ui/Header/Header";
+import { Input } from "./components/ui/input";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./components/ui/card";
+import { Label } from "./components/ui/label";
 
 function App() {
   return (
@@ -129,6 +141,73 @@ function App() {
           </div>
           <ButtonPrime>Sign-in</ButtonPrime>
         </form>
+        <Button>
+          <a href="/click-me">Click me</a>
+        </Button>
+        <Button variant="destructive" disabled>
+          <a href="/click-me">Click me</a>
+        </Button>
+        <Button variant="secondary">
+          <a href="/click-me">Click me</a>
+        </Button>
+        <div className="flex flex-col gap-2 p-3 my-4 w-2xs h-auto border rounded-2xl">
+          <Input type="email" placeholder="email"></Input>
+          <Input type="password" placeholder="password"></Input>
+          <div className="flex flex-row justify-between">
+            <Button>
+              <a href="/">Submit</a>
+            </Button>
+            <Button variant="destructive">
+              <a href="/">Cancel</a>
+            </Button>
+          </div>
+        </div>
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle>Login to your account</CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account
+            </CardDescription>
+            <CardAction>
+              <Button variant="link">Sign Up</Button>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <form>
+              <div className="flex flex-col gap-6">
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <div className="flex items-center">
+                    <Label htmlFor="password">Password</Label>
+                    <a
+                      href="#"
+                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    >
+                      Forgot your password?
+                    </a>
+                  </div>
+                  <Input id="password" type="password" required />
+                </div>
+              </div>
+            </form>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" variant="default" className="w-full">
+              Login
+            </Button>
+            <Button variant="outline" className="w-full">
+              Login with Google
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
     </>
   );
