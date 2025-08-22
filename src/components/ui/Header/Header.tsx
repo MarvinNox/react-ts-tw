@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
   return (
     <header className="border-b border-b-gray-300 text-white">
@@ -6,15 +8,18 @@ export default function Header() {
           href="/"
           className="text-[var(--context-text-overlay-white-primary-text-overlay-w-primary)]"
         >
-          SimpleLogo
+          Cochefy
         </a>
         <nav className="md:ml-auto">
           <ul className="flex gap-2 text-[var(--context-text-overlay-white-primary-text-overlay-w-primary)]">
             <li>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="/about">About</a>
+              <Link to="/sign-in">Sign-in</Link>
+            </li>
+            <li>
+              <Link to="/log-in">Log-in</Link>
             </li>
           </ul>
         </nav>
