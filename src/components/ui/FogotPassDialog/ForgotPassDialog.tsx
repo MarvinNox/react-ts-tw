@@ -1,8 +1,8 @@
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
+import { useMutation } from "@tanstack/react-query";
 import {
   Dialog,
   DialogTrigger,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -12,14 +12,34 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { recoverPassword } from "@/service/api/authService";
+import type { RecoverUser } from "@/types/user";
 
 interface ForgotPassDialogProps {
   trigger: ReactElement;
 }
 
 export default function ForgotPassDialog({ trigger }: ForgotPassDialogProps) {
+  const [email, setEmail] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const { mutate, isPending, isSuccess, isError, error } = useMutation({
+    mutationFn: (data: RecoverUser) => recoverPassword(data),
+    onSuccess: () => {
+      setTimeout(() => {
+        setOpen(false);
+      }, 2000);
+      setEmail("");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate({ email });
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="text-black">
@@ -28,28 +48,47 @@ export default function ForgotPassDialog({ trigger }: ForgotPassDialogProps) {
             Enter your email and below and we send recovery mail
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 text-gray-600">
-          <div className="grid gap-3">
-            <Label htmlFor="signup-email">Email</Label>
-            <Input
-              id="signup-email"
-              type="email"
-              placeholder="mail@example.com"
-              required
-            />
+        <form onSubmit={handleSubmit} className="grid gap-4">
+          <div className="grid gap-4 text-gray-600">
+            <div className="grid gap-3">
+              <Label htmlFor="signup-email">Email</Label>
+              <Input
+                id="signup-email"
+                type="email"
+                placeholder="mail@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {isError && (
+                <p className="text-sm text-red-500 mt-2">
+                  Something went wrong. {error.message}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-
-        <DialogFooter className="grid grid-cols-1">
-          <Button variant="default" type="submit">
-            Request reset link
-          </Button>
-          <DialogClose asChild>
-            <Button variant="outline" className="text-black">
+          <DialogFooter className="grid grid-cols-1">
+            <Button
+              disabled={isPending || isSuccess}
+              variant="default"
+              type="submit"
+            >
+              {isSuccess
+                ? "Link sent to your email"
+                : isPending
+                ? "Sending..."
+                : "Request reset link"}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => setOpen(false)}
+              variant="outline"
+              className="text-black"
+            >
               Go Back
             </Button>
-          </DialogClose>
-        </DialogFooter>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
