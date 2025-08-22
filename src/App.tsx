@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/ui/Header/Header";
-import Home from "./pages/home";
-import LogIn from "./pages/auth/logIn";
-import SignIn from "./pages/auth/signIn";
+import Home from "./pages/Home";
+import SignUp from "./pages/auth/SignUp";
+import SignIn from "./pages/auth/SignIn";
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
       <div className="container mx-auto relative px-4 py-12">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/log-in" element={<LogIn />} />
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Routes>
         {/* <span className="px-2 py-1 mr-2 text-xs font-semibold text-white bg-green-500 rounded-full">
           Pro
