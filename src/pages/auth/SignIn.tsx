@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import SignUpDialog from "@/components/ui/SignUpDialog/SignUpDialog";
 import ForgotPassDialog from "@/components/ui/FogotPassDialog/ForgotPassDialog";
 import type { User } from "@/types/user";
 import { loginUser } from "@/service/api/authService";
+import FormField from "@/components/ui/FormField/FormField";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -53,8 +53,11 @@ export default function SignIn() {
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+              <FormField
+                id="email"
+                label="Email"
+                error={isError ? error.message : undefined}
+              >
                 <Input
                   id="email"
                   type="email"
@@ -63,21 +66,12 @@ export default function SignIn() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <ForgotPassDialog
-                    trigger={
-                      <a
-                        href="#"
-                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                      >
-                        Forgot your password?
-                      </a>
-                    }
-                  ></ForgotPassDialog>
-                </div>
+              </FormField>
+              <FormField
+                id="password"
+                label="Password"
+                error={isError ? error.message : undefined}
+              >
                 <Input
                   id="password"
                   type="password"
@@ -86,12 +80,17 @@ export default function SignIn() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                {isError && (
-                  <p className="text-sm text-red-500 mt-2">
-                    Something went wrong. {error.message}
-                  </p>
-                )}
-              </div>
+                <ForgotPassDialog
+                  trigger={
+                    <a
+                      href="#"
+                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    >
+                      Forgot your password?
+                    </a>
+                  }
+                ></ForgotPassDialog>
+              </FormField>
             </div>
           </form>
         </CardContent>

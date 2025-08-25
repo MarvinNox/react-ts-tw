@@ -10,10 +10,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { recoverPassword } from "@/service/api/authService";
 import type { RecoverUser } from "@/types/user";
+import FormField from "../FormField/FormField";
 
 interface ForgotPassDialogProps {
   trigger: ReactElement;
@@ -50,8 +50,11 @@ export default function ForgotPassDialog({ trigger }: ForgotPassDialogProps) {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-4 text-gray-600">
-            <div className="grid gap-3">
-              <Label htmlFor="signup-email">Email</Label>
+            <FormField
+              id="password"
+              label="Password"
+              error={isError ? error.message : undefined}
+            >
               <Input
                 id="signup-email"
                 type="email"
@@ -60,12 +63,7 @@ export default function ForgotPassDialog({ trigger }: ForgotPassDialogProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {isError && (
-                <p className="text-sm text-red-500 mt-2">
-                  Something went wrong. {error.message}
-                </p>
-              )}
-            </div>
+            </FormField>
           </div>
           <DialogFooter className="grid grid-cols-1">
             <Button

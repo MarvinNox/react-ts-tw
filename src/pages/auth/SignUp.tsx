@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import type { User } from "@/types/user";
 import { registerUser } from "@/service/api/authService";
+import FormField from "@/components/ui/FormField/FormField";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -47,8 +47,11 @@ export default function SignUp() {
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+              <FormField
+                id="email"
+                label="Email"
+                error={isError ? error.message : undefined}
+              >
                 <Input
                   id="email"
                   type="email"
@@ -57,24 +60,22 @@ export default function SignUp() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </div>
+              </FormField>
               <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input
+                <FormField
                   id="password"
-                  type="password"
-                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {isError && (
-                  <p className="text-sm text-red-500 mt-2">
-                    Something went wrong. {error.message}
-                  </p>
-                )}
+                  label="Password"
+                  error={isError ? error.message : undefined}
+                >
+                  <Input
+                    id="password"
+                    type="password"
+                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </FormField>
               </div>
             </div>
           </form>

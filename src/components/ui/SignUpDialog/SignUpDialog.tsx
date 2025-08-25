@@ -11,12 +11,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 
 import type { User } from "@/types/user";
 import { registerUser } from "@/service/api/authService";
+import FormField from "../FormField/FormField";
 
 interface SignUpDialogProps {
   trigger: ReactElement;
@@ -65,8 +65,11 @@ export default function SignUpDialog({ trigger }: SignUpDialogProps) {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-4 text-gray-600">
-            <div className="grid gap-3">
-              <Label htmlFor="signup-email">Email</Label>
+            <FormField
+              id="email"
+              label="Email"
+              error={isError ? error.message : undefined}
+            >
               <Input
                 id="signup-email"
                 type="email"
@@ -75,9 +78,12 @@ export default function SignUpDialog({ trigger }: SignUpDialogProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="signup-password">Password</Label>
+            </FormField>
+            <FormField
+              id="password"
+              label="Password"
+              error={isError ? error.message : undefined}
+            >
               <Input
                 id="signup-password"
                 type="password"
@@ -86,12 +92,7 @@ export default function SignUpDialog({ trigger }: SignUpDialogProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {isError && (
-                <p className="text-sm text-red-500 mt-2">
-                  Something went wrong. {error.message}
-                </p>
-              )}
-            </div>
+            </FormField>
           </div>
           <DialogFooter className="grid grid-cols-1">
             <Button disabled={isSuccess} variant="default" type="submit">
