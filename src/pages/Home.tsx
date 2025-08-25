@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import SignInDialog from "@/components/ui/SignInDialog/SignInDialog";
-import SignUpDialog from "@/components/ui/SignUpDialog/SignUpDialog";
+import SignInDialog from "@/components/SignInDialog/SignInDialog";
+import SignUpDialog from "@/components/SignUpDialog/SignUpDialog";
 
 export default function Home() {
   return (

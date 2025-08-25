@@ -1,6 +1,8 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import {
   Card,
   CardContent,
@@ -13,14 +15,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { User } from "@/types/user";
 import { registerUser } from "@/service/api/authService";
-import FormField from "@/components/ui/FormField/FormField";
+import FormField from "@/components/FormField/FormField";
+import { userValidationSchema } from "@/validation/userSchema";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userValidationSchema),
+    mode: "onSubmit",
+  });
 
-  const { mutate, isPending, isError, isSuccess, error } = useMutation({
+  type SignUpFormData = yup.InferType<typeof userValidationSchema>;
+
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: User) => registerUser(data),
     onSuccess: () => {
       setTimeout(() => {
@@ -29,10 +41,9 @@ export default function SignUp() {
     },
   });
 
-  const handleSubmit = () => {
-    mutate({ email, password });
-    setEmail("");
-    setPassword("");
+  const onSubmit = (data: SignUpFormData) => {
+    mutate(data);
+    reset();
   };
 
   return (
@@ -44,56 +55,50 @@ export default function SignUp() {
             Create your account. Enter your email and password below
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <CardContent>
             <div className="flex flex-col gap-6">
               <FormField
-                id="email"
+                id="signUp-email"
                 label="Email"
-                error={isError ? error.message : undefined}
+                error={errors.email?.message}
               >
                 <Input
-                  id="email"
+                  id="signUp-email"
                   type="email"
                   placeholder="mail@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("email")}
                 />
               </FormField>
               <div className="grid gap-2">
                 <FormField
-                  id="password"
+                  id="signUp-password"
                   label="Password"
-                  error={isError ? error.message : undefined}
+                  error={errors.password?.message}
                 >
                   <Input
-                    id="password"
+                    id="signUp-password"
                     type="password"
-                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password")}
                   />
                 </FormField>
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button
-            disabled={isSuccess}
-            type="button"
-            variant="default"
-            className="w-full"
-            onClick={handleSubmit}
-          >
-            {isSuccess ? "Succsess!" : isPending ? "Loading..." : "Sign-Up"}
-          </Button>
-          <Button variant="outline" className="w-full">
-            Sign-Up with Google
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button
+              disabled={isSuccess}
+              type="submit"
+              variant="default"
+              className="w-full"
+            >
+              {isSuccess ? "Succsess!" : isPending ? "Loading..." : "Sign-Up"}
+            </Button>
+            <Button variant="outline" className="w-full">
+              Sign-Up with Google
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );

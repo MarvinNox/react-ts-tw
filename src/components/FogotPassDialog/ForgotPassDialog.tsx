@@ -1,5 +1,7 @@
 import { useState, type ReactElement } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Dialog,
   DialogTrigger,
@@ -14,28 +16,37 @@ import { Input } from "@/components/ui/input";
 import { recoverPassword } from "@/service/api/authService";
 import type { RecoverUser } from "@/types/user";
 import FormField from "../FormField/FormField";
+import { userValidationSchema } from "@/validation/userSchema";
+import type { UserFormData } from "@/types/user";
 
 interface ForgotPassDialogProps {
   trigger: ReactElement;
 }
 
 export default function ForgotPassDialog({ trigger }: ForgotPassDialogProps) {
-  const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userValidationSchema),
+    mode: "onSubmit",
+  });
 
-  const { mutate, isPending, isSuccess, isError, error } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: RecoverUser) => recoverPassword(data),
     onSuccess: () => {
       setTimeout(() => {
         setOpen(false);
       }, 2000);
-      setEmail("");
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutate({ email });
+  const onSubmit = (data: UserFormData) => {
+    mutate(data);
+    reset();
   };
 
   return (
@@ -48,20 +59,22 @@ export default function ForgotPassDialog({ trigger }: ForgotPassDialogProps) {
             Enter your email and below and we send recovery mail
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="grid gap-4">
+        <form
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid gap-4"
+        >
           <div className="grid gap-4 text-gray-600">
             <FormField
-              id="password"
+              id="email-recovery"
               label="Password"
-              error={isError ? error.message : undefined}
+              error={errors.email?.message}
             >
               <Input
-                id="signup-email"
+                id="email-recovery"
                 type="email"
                 placeholder="mail@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
               />
             </FormField>
           </div>

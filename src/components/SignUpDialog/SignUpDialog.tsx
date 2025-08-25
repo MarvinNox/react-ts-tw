@@ -1,6 +1,8 @@
 import { useState, type ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Dialog,
   DialogTrigger,
@@ -13,23 +15,31 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
-import ForgotPassDialog from "../FogotPassDialog/ForgotPassDialog";
 import type { User } from "@/types/user";
-import { loginUser } from "@/service/api/authService";
+import { registerUser } from "@/service/api/authService";
 import FormField from "../FormField/FormField";
+import { userValidationSchema } from "@/validation/userSchema";
+import type { UserFormData } from "@/types/user";
 
-interface SignInDialogProps {
+interface SignUpDialogProps {
   trigger: ReactElement;
 }
 
-export default function SignInDialog({ trigger }: SignInDialogProps) {
+export default function SignUpDialog({ trigger }: SignUpDialogProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userValidationSchema),
+    mode: "onSubmit",
+  });
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate, isPending, isError, isSuccess, error } = useMutation({
-    mutationFn: (data: User) => loginUser(data),
+  const { mutate, isPending, isSuccess } = useMutation({
+    mutationFn: (data: User) => registerUser(data),
     onSuccess: () => {
       setTimeout(() => {
         setIsOpen(false);
@@ -38,11 +48,9 @@ export default function SignInDialog({ trigger }: SignInDialogProps) {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutate({ email, password });
-    setEmail("");
-    setPassword("");
+  const onSubmit = (data: UserFormData) => {
+    mutate(data);
+    reset();
   };
 
   return (
@@ -50,7 +58,7 @@ export default function SignInDialog({ trigger }: SignInDialogProps) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="text-black">
-          <DialogTitle>Sign-In</DialogTitle>
+          <DialogTitle>Sign-Up</DialogTitle>
           <Button
             variant="ghost"
             size="icon"
@@ -60,56 +68,45 @@ export default function SignInDialog({ trigger }: SignInDialogProps) {
             <X />
           </Button>
           <DialogDescription>
-            Enter your email below to login to your account
+            Enter your email and password below to register your account
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="grid gap-4">
+        <form
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid gap-4"
+        >
           <div className="grid gap-4 text-gray-600">
             <FormField
-              id="email"
+              id="signup-email"
               label="Email"
-              error={isError ? error.message : undefined}
+              error={errors.email?.message}
             >
               <Input
                 id="signup-email"
                 type="email"
                 placeholder="mail@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
               />
             </FormField>
             <FormField
-              id="password"
+              id="signup-password"
               label="Password"
-              error={isError ? error.message : undefined}
+              error={errors.password?.message}
             >
               <Input
                 id="signup-password"
                 type="password"
-                pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
               />
-              <ForgotPassDialog
-                trigger={
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                }
-              ></ForgotPassDialog>
             </FormField>
           </div>
           <DialogFooter className="grid grid-cols-1">
             <Button disabled={isSuccess} variant="default" type="submit">
-              {isSuccess ? "Succsess!" : isPending ? "Loading..." : "Sign-in"}
+              {isSuccess ? "Succsess!" : isPending ? "Loading..." : "Register"}
             </Button>
-            <Button variant="outline" type="button" className="text-black">
-              Login with Google
+            <Button variant="outline" className="text-black">
+              Register with Google
             </Button>
           </DialogFooter>
         </form>

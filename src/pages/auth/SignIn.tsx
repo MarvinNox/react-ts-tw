@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Card,
   CardAction,
@@ -12,18 +13,27 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import SignUpDialog from "@/components/ui/SignUpDialog/SignUpDialog";
-import ForgotPassDialog from "@/components/ui/FogotPassDialog/ForgotPassDialog";
+import SignUpDialog from "@/components/SignUpDialog/SignUpDialog";
+import ForgotPassDialog from "@/components/FogotPassDialog/ForgotPassDialog";
 import type { User } from "@/types/user";
 import { loginUser } from "@/service/api/authService";
-import FormField from "@/components/ui/FormField/FormField";
+import FormField from "@/components/FormField/FormField";
+import { userValidationSchema } from "@/validation/userSchema";
+import type { UserFormData } from "@/types/user";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userValidationSchema),
+    mode: "onSubmit",
+  });
 
-  const { mutate, isPending, isError, isSuccess, error } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: User) => loginUser(data),
     onSuccess: () => {
       setTimeout(() => {
@@ -32,10 +42,9 @@ export default function SignIn() {
     },
   });
 
-  const handleSubmit = () => {
-    mutate({ email, password });
-    setEmail("");
-    setPassword("");
+  const onSubmit = (data: UserFormData) => {
+    mutate(data);
+    reset();
   };
 
   return (
@@ -50,35 +59,30 @@ export default function SignIn() {
             <SignUpDialog trigger={<Button variant="ghost">Sign-Up</Button>} />
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <CardContent>
             <div className="flex flex-col gap-6">
               <FormField
-                id="email"
+                id="signup-email"
                 label="Email"
-                error={isError ? error.message : undefined}
+                error={errors.email?.message}
               >
                 <Input
-                  id="email"
+                  id="signup-email"
                   type="email"
                   placeholder="mail@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("email")}
                 />
               </FormField>
               <FormField
-                id="password"
+                id="signup-password"
                 label="Password"
-                error={isError ? error.message : undefined}
+                error={errors.password?.message}
               >
                 <Input
-                  id="password"
+                  id="signup-password"
                   type="password"
-                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
                 <ForgotPassDialog
                   trigger={
@@ -92,22 +96,21 @@ export default function SignIn() {
                 ></ForgotPassDialog>
               </FormField>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button
-            disabled={isSuccess}
-            type="button"
-            variant="default"
-            className="w-full"
-            onClick={handleSubmit}
-          >
-            {isSuccess ? "Succsess!" : isPending ? "Loading..." : "Sign-In"}
-          </Button>
-          <Button variant="outline" className="w-full">
-            Sign-in with Google
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button
+              disabled={isSuccess}
+              type="button"
+              variant="default"
+              className="w-full"
+            >
+              {isSuccess ? "Succsess!" : isPending ? "Loading..." : "Sign-In"}
+            </Button>
+            <Button variant="outline" className="w-full">
+              Sign-in with Google
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );
