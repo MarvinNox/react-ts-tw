@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
+
 import { useMutation } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,6 +20,7 @@ import FormField from "../FormField/FormField";
 import { addSourceValidationSchema } from "@/validation/userSchema";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
+import { toast } from "react-toastify";
 
 interface SignUpDialogProps {
   trigger: ReactElement;
@@ -39,15 +40,18 @@ export default function AddSource({ trigger }: SignUpDialogProps) {
       activity: true,
     },
   });
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: Source) => addSource(data),
     onSuccess: () => {
+      toast.success(`New source has been added`, {
+        position: "top-center",
+        closeButton: false,
+        hideProgressBar: true,
+      });
       setTimeout(() => {
         setIsOpen(false);
-        navigate("/admin", { replace: true });
       }, 1000);
     },
   });
