@@ -19,7 +19,7 @@ export function BackSheet() {
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="bg-gradient-to-r from-[#013270] to-[#011B3C] border-none w-[268px] [&>button:first-of-type]:hidden"
+        className="bg-[linear-gradient(323deg,rgba(2,0,36,1)0%,rgba(9,9,121,1)80%,rgba(19,68,133,1)100%)] border-none w-[268px] [&>button:first-of-type]:hidden"
       >
         <SheetHeader className="border-b border-gray-500 p-6">
           <SheetTitle className="flex text-white gap-2 text-xl items-center font-normal">

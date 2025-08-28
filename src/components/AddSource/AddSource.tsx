@@ -1,7 +1,7 @@
 import { useState, type ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Dialog,
@@ -30,21 +30,24 @@ export default function AddSource({ trigger }: SignUpDialogProps) {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(addSourceValidationSchema),
     mode: "onSubmit",
+    defaultValues: {
+      activity: true,
+    },
   });
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(true);
 
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: Source) => addSource(data),
     onSuccess: () => {
       setTimeout(() => {
         setIsOpen(false);
-        navigate("/", { replace: true });
+        navigate("/admin", { replace: true });
       }, 1000);
     },
   });
@@ -113,19 +116,25 @@ export default function AddSource({ trigger }: SignUpDialogProps) {
                 {...register("configuration")}
               />
             </FormField>
-            <div className="flex justify-between my-4">
-              <Label htmlFor="activity-mode">Airplane Mode</Label>
-              <div className="flex items-center gap-3">
-                <Switch
-                  id="activity-mode"
-                  checked={isChecked}
-                  onCheckedChange={setIsChecked}
-                  className="data-[state=checked]:bg-blue-600"
-                  {...register("activity")}
-                />
-                {isChecked ? <p>On</p> : <p>Off</p>}
-              </div>
-            </div>
+            <Controller
+              name="activity"
+              control={control}
+              defaultValue={true}
+              render={({ field }) => (
+                <div className="flex justify-between my-4">
+                  <Label htmlFor="activity-mode">Airplane Mode</Label>
+                  <div className="flex items-center gap-3">
+                    <Switch
+                      id="activity-mode"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      className="data-[state=checked]:bg-blue-600"
+                    />
+                    {field.value ? <p>On</p> : <p>Off</p>}
+                  </div>
+                </div>
+              )}
+            />
           </div>
           <DialogFooter className="flex gap-4">
             <Button
