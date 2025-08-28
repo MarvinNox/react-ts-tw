@@ -41,7 +41,12 @@ export default function EditSource({ trigger }: SignUpDialogProps) {
   });
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate, isPending, isSuccess } = useMutation({
+  const {
+    mutate,
+    isPending,
+    isSuccess,
+    reset: resetMutation,
+  } = useMutation({
     mutationFn: (data: Source) => addSource(data),
     onSuccess: () => {
       toast.success("Source has been edited!", {
@@ -51,6 +56,7 @@ export default function EditSource({ trigger }: SignUpDialogProps) {
       });
       setTimeout(() => {
         setIsOpen(false);
+        resetMutation();
       }, 1000);
     },
   });

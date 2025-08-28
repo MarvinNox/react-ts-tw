@@ -6,7 +6,7 @@ export default function AdminPanelHeader() {
   return (
     <div className="border-b pt-6 pr-10 pb-4 pl-6 border-gray-400">
       <div className="container max-h-[72px] mx-auto flex justify-between">
-        <a href="/" className="font-medium flex items-center">
+        <a href="/" className="font-medium text-base flex items-center">
           Data Sources
         </a>
         <AddSource

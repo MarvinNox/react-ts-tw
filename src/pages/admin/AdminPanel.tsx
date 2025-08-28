@@ -55,27 +55,27 @@ export default function AdminPanel() {
       <BackSheet />
       <Table className="mt-5">
         <TableHeader>
-          <TableRow className="bg-gray-400 border-b">
-            <TableHead className="w-[284px] rounded-tl-[8px] border-gray-500 border-r pr-4 py-1">
+          <TableRow className="bg-gray-400 border-b ">
+            <TableHead className="h-5 w-[284px] rounded-tl-[8px] border-gray-500 border-r pr-4 py-1">
               <span className="flex items-center gap-1 text-xs text-gray-800">
                 Name <ArrowDownUp size={14} />
               </span>
             </TableHead>
-            <TableHead className="w-[180px] border-gray-500 border-r pr-4 py-1">
+            <TableHead className="h-5 w-[180px] border-gray-500 border-r pr-4 py-1">
               <span className="text-gray-800 text-xs">Type</span>
             </TableHead>
-            <TableHead className="w-[140px] border-gray-500 border-r pr-4 py-1">
+            <TableHead className="h-5 w-[140px] border-gray-500 border-r pr-4 py-1">
               <span className="flex items-center gap-1 text-xs text-gray-800">
                 Status <ArrowDownUp size={14} />
               </span>
             </TableHead>
-            <TableHead className="w-[240px] border-gray-500 border-r pr-4 py-1">
+            <TableHead className="h-5 w-[240px] border-gray-500 border-r pr-4 py-1">
               <span className="flex items-center gap-1 text-xs text-gray-800">
                 Last Sync
                 <ArrowDownUp size={14} />
               </span>
             </TableHead>
-            <TableHead className="w-[264px] rounded-tr-[8px] border-l pr-4 py-1">
+            <TableHead className="h-5 w-[264px] rounded-tr-[8px] border-l pr-4 py-1">
               <span className="text-gray-800 text-xs">Actions</span>
             </TableHead>
           </TableRow>

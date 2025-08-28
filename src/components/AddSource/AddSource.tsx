@@ -42,7 +42,12 @@ export default function AddSource({ trigger }: SignUpDialogProps) {
   });
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate, isPending, isSuccess } = useMutation({
+  const {
+    mutate,
+    isPending,
+    isSuccess,
+    reset: resetMutation,
+  } = useMutation({
     mutationFn: (data: Source) => addSource(data),
     onSuccess: () => {
       toast.success(`New source has been added`, {
@@ -52,6 +57,7 @@ export default function AddSource({ trigger }: SignUpDialogProps) {
       });
       setTimeout(() => {
         setIsOpen(false);
+        resetMutation();
       }, 1000);
     },
   });
