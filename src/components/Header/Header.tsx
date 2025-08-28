@@ -21,6 +21,9 @@ export default function Header() {
             <li>
               <Link to="/sign-in">Sign-in</Link>
             </li>
+            <li>
+              <Link to="/admin">Admin</Link>
+            </li>
           </ul>
         </nav>
         <div className="flex items-center">

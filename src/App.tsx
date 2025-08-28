@@ -3,16 +3,20 @@ import Header from "./components/Header/Header";
 import Home from "./pages/Home";
 import SignUp from "./pages/auth/SignUp";
 import SignIn from "./pages/auth/SignIn";
+import AdminPanel from "./pages/admin/AdminPanel";
+import AdminPanelHeader from "./components/AdminPanelHeader/AdminPanelHeader";
 
 function App() {
   return (
     <>
-      <Header />
+      {location.pathname === "/admin" ? <AdminPanelHeader /> : <Header />}
+
       <div className="container mx-auto relative px-4 py-12">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
         {/* <span className="px-2 py-1 mr-2 text-xs font-semibold text-white bg-green-500 rounded-full">
           Pro
