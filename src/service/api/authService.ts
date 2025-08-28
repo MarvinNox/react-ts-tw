@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { RecoverUser, User } from "@/types/user";
+import type { RecoverUser, Source, User } from "@/types/user";
 
 axios.defaults.baseURL = "https://jsonplaceholder.typicode.com/posts";
 
@@ -15,5 +15,9 @@ export const loginUser = async (payload: User) => {
 
 export const registerUser = async (payload: User) => {
   const response = await axios.post<User>("", payload);
+  return response.data;
+};
+export const addSource = async (payload: Source) => {
+  const response = await axios.post<Source>("", payload);
   return response.data;
 };

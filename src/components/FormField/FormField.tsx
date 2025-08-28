@@ -15,7 +15,7 @@ export default function FormField({
   children,
 }: FormFieldProps) {
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2.5">
       <Label htmlFor={id}>{label}</Label>
       {children}
       {error && <p className="text-sm text-red-500 mt-2">{error}</p>}

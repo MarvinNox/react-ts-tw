@@ -1,3 +1,5 @@
+import { BackSheet } from "@/components/BackSheet/BackSheet";
+import EditSource from "@/components/EditSource/EditSource";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -50,6 +52,7 @@ const sources = [
 export default function AdminPanel() {
   return (
     <>
+      <BackSheet />
       <Table className="mt-5">
         <TableHeader>
           <TableRow className="bg-gray-400 border-b">
@@ -100,13 +103,17 @@ export default function AdminPanel() {
               </TableCell>
               <TableCell>{new Date(Date.now()).toLocaleString()}</TableCell>
               <TableCell className="flex gap-2">
-                <Button
-                  variant="outline"
-                  className="text-blue-500 hover:text-blue-600 bg-[var(--context-background-fill-brand-blue-tertiary-bg-fill-brand-tertiary)]"
-                >
-                  <Pencil />
-                  Edit
-                </Button>
+                <EditSource
+                  trigger={
+                    <Button
+                      variant="outline"
+                      className="text-blue-500 hover:text-blue-600 bg-[var(--context-background-fill-brand-blue-tertiary-bg-fill-brand-tertiary)]"
+                    >
+                      <Pencil />
+                      Edit
+                    </Button>
+                  }
+                />
                 <Button
                   variant="outline"
                   className="text-blue-500 hover:text-blue-600 bg-[var(--context-background-fill-brand-blue-tertiary-bg-fill-brand-tertiary)]"

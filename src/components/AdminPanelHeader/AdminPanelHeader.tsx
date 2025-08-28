@@ -1,5 +1,6 @@
 import { CirclePlus } from "lucide-react";
 import { Button } from "../ui/button";
+import AddSource from "../AddSource/AddSource";
 
 export default function AdminPanelHeader() {
   return (
@@ -8,13 +9,17 @@ export default function AdminPanelHeader() {
         <a href="/" className="font-medium flex items-center">
           Data Sources
         </a>
-        <Button
-          variant="default"
-          className="py-1.5 px-2.5 text-sm medium bg-[#2175FE] bg-[linear-gradient(220deg,rgba(42,87,252,1)_30%,rgba(150,72,246)_125%)]"
-        >
-          <CirclePlus />
-          Add Source
-        </Button>
+        <AddSource
+          trigger={
+            <Button
+              variant="default"
+              className="py-1.5 px-2.5 text-sm medium bg-[#2175FE] bg-[linear-gradient(220deg,rgba(42,87,252,1)_30%,rgba(150,72,246)_125%)]"
+            >
+              <CirclePlus />
+              Add Source
+            </Button>
+          }
+        />
       </div>
     </div>
   );

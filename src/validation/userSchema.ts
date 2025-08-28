@@ -9,3 +9,10 @@ export const userValidationSchema = Yup.object().shape({
     .max(50, "Password must be at most 50 char")
     .required("Password is required"),
 });
+
+export const addSourceValidationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required!"),
+  type: Yup.string().required("Please choose a type"),
+  configuration: Yup.string().required("Please choose configuration"),
+  activity: Yup.boolean().required(),
+});
