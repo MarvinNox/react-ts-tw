@@ -1,24 +1,24 @@
 import { Button } from "@/components/ui/button";
 import SignInDialog from "@/components/SignInDialog/SignInDialog";
 import SignUpDialog from "@/components/SignUpDialog/SignUpDialog";
+import { Flame } from "lucide-react";
 
 export default function Home() {
   return (
     <>
-      <h1 className="text-6xl font-bold text-center mb-12">
-        Welcome to Cochefy
-      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 items-center">
         <div className="grid grid-cols-1 gap-4">
-          <h2 className="text-3xl font-bold">Lorem, ipsum.</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-            nesciunt voluptatum perferendis autem minima ut quis repellendus
-            ratione dolor, soluta nam obcaecati. Doloribus minima tenetur
-            provident iure sequi dignissimos vero.
-          </p>
+          <h1 className="text-3xl font-bold">Bienvenido a Cochefy.</h1>
+          <p>¡Encuentra tu vehículo soñado ahora!</p>
           <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1">
-            <SignInDialog trigger={<Button>Sign-in</Button>} />
+            <SignInDialog
+              trigger={
+                <Button className="text-base font-normal">
+                  <Flame fill="white" />
+                  Comienza ahora
+                </Button>
+              }
+            />
             <SignUpDialog
               trigger={<Button variant="secondary">Sign-Up</Button>}
             />

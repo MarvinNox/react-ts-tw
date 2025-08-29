@@ -39,17 +39,23 @@ export function BackSheet() {
           </SheetTitle>
         </SheetHeader>
         <ul className="px-4 py-6 flex flex-col gap-2">
-          <li className="font-semibold text-base flex gap-3 px-4 py-3 rounded-[8px] bg-[var(--context-background-fill-overlay-white-tertiary-bg-fill-overlay-w-tertiary)] hover:bg-gray-500/50">
-            <Server />
-            Data Sources
+          <li className="font-semibold text-base px-4 py-3 rounded-[8px] bg-[var(--context-background-fill-overlay-white-tertiary-bg-fill-overlay-w-tertiary)] hover:bg-gray-500/50">
+            <a href="/admin/sources" className="flex gap-3">
+              <Server />
+              Data Sources
+            </a>
           </li>
-          <li className="font-semibold text-base flex gap-3 px-4 py-3 rounded-[8px] hover:bg-gray-500/50">
-            <TrendingUp />
-            Advertising
+          <li className="font-semibold text-base px-4 py-3 rounded-[8px] hover:bg-gray-500/50">
+            <a href="/admin/advert" className="flex gap-3">
+              <TrendingUp />
+              Advertising
+            </a>
           </li>
-          <li className="font-semibold text-base flex gap-3 px-4 py-3 rounded-[8px] hover:bg-gray-500/50">
-            <ChartPie />
-            Statistics
+          <li className="font-semibold text-base px-4 py-3 rounded-[8px] hover:bg-gray-500/50">
+            <a href="/admin/statistics" className="flex gap-3">
+              <ChartPie />
+              Statistics
+            </a>
           </li>
         </ul>
         <SheetFooter className="">

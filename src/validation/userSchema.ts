@@ -16,3 +16,11 @@ export const addSourceValidationSchema = Yup.object().shape({
   configuration: Yup.string().required("Please choose configuration"),
   activity: Yup.boolean().required(),
 });
+
+export const addBannerValidationSchema = Yup.object().shape({
+  title: Yup.string().required("Title is required!"),
+  link: Yup.string().required("Please enter a url"),
+  position: Yup.string().required("Please choose configuration"),
+  activeFrom: Yup.string().required("Please enter a date active from"),
+  activeTo: Yup.string().required("Please enter a date active to"),
+});

@@ -22,7 +22,7 @@ export default function Header() {
               <Link to="/sign-in">Sign-in</Link>
             </li>
             <li>
-              <Link to="/admin">Admin</Link>
+              <Link to="/admin/sources">Admin</Link>
             </li>
           </ul>
         </nav>
